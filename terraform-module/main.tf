@@ -183,12 +183,12 @@ locals {
   domain-name = module.front-end-lb.fqdn
 }
 
-resource "null_resource" "initialize-helm" {
-  depends_on = [local_file.kube-cluster-yaml]
-  provisioner "local-exec" {
-    command = file("../initialize-helm.sh")
-  }
-}
+# resource "null_resource" "initialize-helm" {
+#   depends_on = [local_file.kube-cluster-yaml]
+#   provisioner "local-exec" {
+#     command = file("../initialize-helm.sh")
+#   }
+# }
 
 resource "null_resource" "install-cert-manager" {
   depends_on = [local_file.kube-cluster-yaml]
