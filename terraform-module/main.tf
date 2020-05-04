@@ -40,49 +40,6 @@ resource "random_password" "k8s-serviceprincipal-password" {
   length = 16
 }
 
-### Disabled while I diagnose upstream Azure AD / Storage account 403 auth issues
-# module "k8s-serviceprincipal-module" {
-#   source = "./serviceprincipal-module"
-
-#   resource-group-id = module.k8s-resource-group.resource-group.id
-#   application-name = "k8s-ccm-principal"
-#   password = random_password.k8s-serviceprincipal-password.result
-# }
-
-# # Storage Accounts for KeyVault
-# module "rancher-storage-account" {
-#   source = "./azure-storage-account-module"
-
-#   resource-group = module.rancher-resource-group.resource-group
-#   storage-account-name = "catranchkeyvault"
-# }
-
-# module "k8s-storage-account" {
-#   source = "./azure-storage-account-module"
-
-#   resource-group = module.k8s-resource-group.resource-group
-#   storage-account-name = "catk8skeyvault"
-# }
-
-# # KeyVaults to encrypt etcd
-# module "rancher-keyvault" {
-#   source = "./azure-keyvault-module"
-
-#   tenant-id = data.azurerm_subscription.current.tenant_id
-#   resource-group = module.rancher-resource-group.resource-group
-#   vault-name = "catranchkeyvault"
-#   serviceprincipal-id = module.rancher-serviceprincipal-module.service-principal-object-id
-# } 
-
-# module "k8s-keyvault" {
-#   source = "./azure-keyvault-module"
-
-#   tenant-id = data.azurerm_subscription.current.tenant_id
-#   resource-group = module.k8s-resource-group.resource-group
-#   vault-name = "catk8skeyvault"
-#   serviceprincipal-id = module.k8s-serviceprincipal-module.service-principal-object-id
-# } 
-
 # Nodes
 locals {
    node-definition = {
@@ -220,33 +177,6 @@ resource "local_file" "kube-cluster-yaml" {
   content = rke_cluster.rancher-cluster.kube_config_yaml
 }
 
-# ############### Enable for Cloudflare, you'll need to change the Rancher domain as well. ##########
-# module "cloudflare-dns" {
-#   source = "./cloudflare-module"
-  
-#   domain-name = var.rancher-domain-name
-#   cloudflare-email = var.cloudflare-email
-#   cloudflare-token = var.cloudflare-token
-#   ip-address = module.front-end-lb.ip-address
-# }
-
-
-# resource "null_resource" "flush-dns-cache" {
-#   depends_on = [local_file.kube-cluster-yaml]
-#   provisioner "local-exec" {
-#     command = "sudo service network-manager restart"
-#   }
-# }
-
-# resource "null_resource" "wait-for-dns" {
-#   depends_on = [null_resource.flush-dns-cache]
-#   provisioner "local-exec" {
-#     command = "sleep 30"
-#   }
-# }
-
-# ############### END Enable for Cloudflare, you'll need to change the Rancher domain as well. ##########
-
 locals {
   domain-name = module.front-end-lb.fqdn
 }
@@ -348,44 +278,4 @@ module "k8s-worker" {
   address-starting-index = var.k8s-etcd-node-count + var.k8s-controlplane-node-count
   node-definition = local.node-definition
   commandToExecute = "${module.cluster-module.linux-node-command} --worker"
-}
-
-resource "random_password" "windows-admin-password" {
-  length = 32
-  special = true
-}
-
-locals {
-  windows-node-definition = {
-    admin-username = local.node-definition.admin-username
-    admin-password = random_password.windows-admin-password.result
-    size = "Standard_D2s_v3"
-    disk-type = "Premium_LRS"
-    publisher = "MicrosoftWindowsServer"
-    offer     = "WindowsServer"
-    sku       = "Datacenter-Core-1903-with-Containers-smalldisk"
-    version   = "latest"
-  }
-}
-
-module "k8s-windows" {
-  source = "./windowsnode-module"
-  prefix = "win"
-
-  resource-group = module.k8s-resource-group.resource-group
-  node-count = var.k8s-windows-node-count
-  subnet-id = module.k8s-network.subnet-id
-  address-starting-index = var.k8s-etcd-node-count + var.k8s-controlplane-node-count + var.k8s-worker-node-count
-  node-definition = local.windows-node-definition
-}
-
-module "join-rancher" {
-  source = "./join-rancher-module"
-  
-  resource-group = module.k8s-resource-group.resource-group
-  node-count = var.k8s-windows-node-count
-  nodes = module.k8s-windows.nodes
-  public-Ips = module.k8s-windows.publicIps
-  private-Ips = module.k8s-windows.privateIps
-  join-command = module.cluster-module.windows-node-commmand
 }
