@@ -150,6 +150,8 @@ resource rke_cluster "rancher-cluster" {
     }
   }
 
+  kubernetes_version = "v1.16.8-rancher1-3"
+
   addons = <<EOL
 ---
 kind: ServiceAccount
@@ -182,13 +184,6 @@ resource "local_file" "kube-cluster-yaml" {
 locals {
   domain-name = module.front-end-lb.fqdn
 }
-
-# resource "null_resource" "initialize-helm" {
-#   depends_on = [local_file.kube-cluster-yaml]
-#   provisioner "local-exec" {
-#     command = file("../initialize-helm.sh")
-#   }
-# }
 
 resource "null_resource" "install-cert-manager" {
   depends_on = [local_file.kube-cluster-yaml]
