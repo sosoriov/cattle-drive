@@ -11,16 +11,6 @@ variable "lets-encrypt-environment" {
   default = "staging"
 }
 
-# Cloudflare
-variable "cloudflare-email" {
-  description = "Email Addres for Cloudflare"
-  type = string
-}
-
-variable "cloudflare-token" {
-  description = "Authentication token for Cloudflare"
-}
-
 
 # Node Credentials
 variable "node-credentials" {
