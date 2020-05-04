@@ -34,6 +34,12 @@ resource "helm_release" "cert-manager" {
   wait = true
 }
 
+resource "kubernetes_namespace" "cattle-system" {
+  metadata {
+    name = "cattle-system"
+  }
+}
+
 resource "helm_release" "rancher" {
   name  = "rancher"
   namespace = "cattle-system"
