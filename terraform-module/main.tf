@@ -48,7 +48,7 @@ locals {
     admin-username = var.node-credentials.admin-username
     ssh-keypath = var.node-credentials.ssh-keypath
     ssh-keypath-private = var.node-credentials.ssh-keypath-private
-    size = "Standard_D2s_v3"
+    size = "Standard_D1_v2"
     disk-type = "Premium_LRS"
     publisher = "Canonical"
     offer     = "UbuntuServer"
