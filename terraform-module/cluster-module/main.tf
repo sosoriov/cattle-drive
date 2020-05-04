@@ -11,8 +11,7 @@ provider "rancher2" {
 ################################## Rancher
 resource "rancher2_cluster" "manager" {
   name = var.cluster-name
-  description = "Hybrid cluster with Windows and Linux workloads"
-  # windows_prefered_cluster = true Not currently supported
+  description = "Testing RKE in azure"
   rke_config {
     network {
       plugin = "flannel"

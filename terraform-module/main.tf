@@ -236,7 +236,7 @@ module "rancherbootstrap-module" {
 module "cluster-module" {
   source = "./cluster-module"
 
-  cluster-name = "windowshybrid"
+  cluster-name = "sebosocluster"
   rancher_api_url = module.rancherbootstrap-module.rancher-url
   rancher_api_token = module.rancherbootstrap-module.admin-token
   subscription-id = data.azurerm_subscription.current.subscription_id
