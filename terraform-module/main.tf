@@ -49,7 +49,7 @@ locals {
     ssh-keypath = var.node-credentials.ssh-keypath
     ssh-keypath-private = var.node-credentials.ssh-keypath-private
     size = "Standard_D1_v2"
-    disk-type = "Premium_LRS"
+    disk-type = "Standard_LRS"
     publisher = "Canonical"
     offer     = "UbuntuServer"
     sku       = "16.04-LTS"
