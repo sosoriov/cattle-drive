@@ -88,3 +88,9 @@ variable "k8s-worker-node-count" {
   description = "Number of worker nodes in the k8s cluster"
   default = 1 
 }
+
+variable "rke-kubernetes-version" {
+  type = string
+  description = "Kubernetes version for RKE"
+  default = "v1.16.8-rancher1-3"
+}

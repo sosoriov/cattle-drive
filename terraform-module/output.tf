@@ -18,3 +18,8 @@ output "lets-encrypt-email" {
   description = "Let's encrypt email for the Rancher server"
   value = var.lets-encrypt-email
 }
+
+output "kubeconfig_yaml" {
+  value = rke_cluster.rancher_cluster.kube_config_yaml
+  sensitive = true
+}

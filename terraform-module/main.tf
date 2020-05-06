@@ -150,7 +150,7 @@ resource rke_cluster "rancher-cluster" {
     }
   }
 
-  kubernetes_version = "v1.16.8-rancher1-3"
+  kubernetes_version = var.rke-kubernetes-version
 
 }
 

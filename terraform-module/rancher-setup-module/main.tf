@@ -41,6 +41,8 @@ resource "kubernetes_namespace" "cattle-system" {
 }
 
 resource "helm_release" "rancher" {
+  depends_on = [helm_release.cert-manager, kubernetes_namespace.cattle-system]
+
   name  = "rancher"
   namespace = "cattle-system"
   repository = data.helm_repository.rancher-latest.metadata[0].name
