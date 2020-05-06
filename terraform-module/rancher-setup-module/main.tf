@@ -29,7 +29,7 @@ resource "helm_release" "cert-manager" {
   namespace = "cert-manager"
   repository = data.helm_repository.jetstack.metadata[0].name
   chart = "jetstack/cert-manager"
-  version = "v0.15.0-beta.0"
+  version = "v0.14.3"
   timeout = "600"
   wait = true
 }
