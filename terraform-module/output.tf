@@ -9,12 +9,6 @@ output "rancher-admin-password" {
   value = module.rancherbootstrap-module.admin-password
 }
 
-output "windows-admin-password" {
-  sensitive = false
-  description = "Windows Admin password for server nodes"
-  value = module.k8s-windows.admin-password
-}
-
 output "lets-encrypt-environment" {
   description = "Let's encrypt environment for the Rancher server"
   value = var.lets-encrypt-environment

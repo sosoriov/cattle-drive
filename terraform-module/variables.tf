@@ -11,16 +11,6 @@ variable "lets-encrypt-environment" {
   default = "staging"
 }
 
-# Cloudflare
-variable "cloudflare-email" {
-  description = "Email Addres for Cloudflare"
-  type = string
-}
-
-variable "cloudflare-token" {
-  description = "Authentication token for Cloudflare"
-}
-
 
 # Node Credentials
 variable "node-credentials" {
@@ -96,11 +86,5 @@ variable "k8s-controlplane-node-count" {
 variable "k8s-worker-node-count" {
   type = number
   description = "Number of worker nodes in the k8s cluster"
-  default = 1 
-}
-
-variable "k8s-windows-node-count" {
-  type = number
-  description = "Number of windows nodes in the k8s cluster"
   default = 1 
 }

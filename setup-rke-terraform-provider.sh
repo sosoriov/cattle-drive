@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Download the provider
-TERRAFORM_VERSION="0.14.1"
+TERRAFORM_VERSION="v1.0.0-rc5"
 ARCH="linux-amd64"
 curl  -L "https://github.com/rancher/terraform-provider-rke/releases/download/$TERRAFORM_VERSION/terraform-provider-rke_$(echo $TERRAFORM_VERSION)_$ARCH.zip" -o terraform_provider_rke.zip
 

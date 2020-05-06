@@ -8,3 +8,4 @@ terraform-provider-rke*/
 *.log
 output.json
 kube_config_cluster.yml
+terraform.exe

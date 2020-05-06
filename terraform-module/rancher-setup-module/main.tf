@@ -13,6 +13,11 @@ data "helm_repository" "rancher-stable" {
   url  = "https://releases.rancher.com/server-charts/stable"
 }
 
+data "helm_repository" "rancher-latest" {
+  name = "rancher-latest"
+  url  = "https://releases.rancher.com/server-charts/latest"
+}
+
 data "helm_repository" "jetstack" {
   name = "jetstack"
   url = "https://charts.jetstack.io"
@@ -24,15 +29,21 @@ resource "helm_release" "cert-manager" {
   namespace = "cert-manager"
   repository = data.helm_repository.jetstack.metadata[0].name
   chart = "jetstack/cert-manager"
-  version = "v0.13.1"
+  version = "v0.14.3"
   timeout = "600"
   wait = true
+}
+
+resource "kubernetes_namespace" "cattle-system" {
+  metadata {
+    name = "cattle-system"
+  }
 }
 
 resource "helm_release" "rancher" {
   name  = "rancher"
   namespace = "cattle-system"
-  repository = data.helm_repository.rancher-stable.metadata[0].name
+  repository = data.helm_repository.rancher-latest.metadata[0].name
   chart = "rancher-latest/rancher"
   version = "v2.3.5"
   timeout = 600
