@@ -152,28 +152,6 @@ resource rke_cluster "rancher-cluster" {
 
   kubernetes_version = "v1.16.8-rancher1-3"
 
-  addons = <<EOL
----
-kind: ServiceAccount
-apiVersion: v1
-metadata:
-  name: tiller
-  namespace: kube-system
----
-kind: ClusterRoleBinding
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: tiller
-  namespace: kube-system
-subjects:
-- kind: ServiceAccount
-  name: tiller
-  namespace: kube-system
-roleRef:
-  kind: ClusterRole
-  name: cluster-admin
-  apiGroup: rbac.authorization.k8s.io
-EOL
 }
 
 resource "local_file" "kube-cluster-yaml" {
@@ -201,12 +179,6 @@ module "rancher-setup-module"  {
   rancher-hostname = local.domain-name
 }
 
-# resource "null_resource" "install-rancher" {
-#   depends_on = [null_resource.install-cert-manager]
-#   provisioner "local-exec" {
-#     command = templatefile("../install-rancher.sh", { lets-encrypt-email = var.lets-encrypt-email, lets-encrypt-environment = var.lets-encrypt-environment, rancher-domain-name = local.domain-name })
-#   }
-# }
 
 resource "null_resource" "wait-for-rancher-ingress" {
   depends_on = [module.rancher-setup-module]
