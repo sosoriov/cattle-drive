@@ -179,7 +179,7 @@ resource "helm_release" "rancher" {
 
   set {
     name = "hostname"
-    value = rancher_k8s.host
+    value = var.rancher_k8s.host
   }
 
   set {

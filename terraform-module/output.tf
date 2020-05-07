@@ -20,6 +20,6 @@ output "lets-encrypt-email" {
 }
 
 output "kubeconfig_yaml" {
-  value = rke_cluster.rancher_cluster.kube_config_yaml
+  value = rke_cluster.rancher-cluster.kube_config_yaml
   sensitive = true
 }
