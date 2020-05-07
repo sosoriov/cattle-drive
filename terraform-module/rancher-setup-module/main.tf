@@ -81,7 +81,7 @@ resource "kubernetes_job" "install_cert_manager_crds" {
         container {
           name    = "kubectl"
           image   = var.kubectl_image
-          command = ["kubectl", "apply", "-f", "--validate=false", var.cert_manager.crd_url]
+          command = ["kubectl", "apply", "--validate=false", "-f", var.cert_manager.crd_url]
         }
         host_network                    = true
         automount_service_account_token = true
