@@ -162,29 +162,29 @@ resource "helm_release" "rancher" {
   timeout = 600
   wait = true
 
-  set {
-    name = "ingress.tls.source"
-    value = "letsEncrypt"
-  }
+  # set {
+  #   name = "ingress.tls.source"
+  #   value = "letsEncrypt"
+  # }
 
-  set {
-    name = "letsEncrypt.email"
-    value = var.lets-encrypt-email
-  }
+  # set {
+  #   name = "letsEncrypt.email"
+  #   value = var.lets-encrypt-email
+  # }
 
-  set {
-    name = "letsEncrypt.environment"
-    value = var.lets-encrypt-environment
-  }
+  # set {
+  #   name = "letsEncrypt.environment"
+  #   value = var.lets-encrypt-environment
+  # }
 
   set {
     name = "hostname"
     value = var.rancher_k8s.host
   }
 
-  set {
-    name = "addLocal"
-    value = "true"
-  }
+  # set {
+  #   name = "addLocal"
+  #   value = "true"
+  # }
 }
 
