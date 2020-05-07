@@ -152,31 +152,23 @@ resource rke_cluster "rancher-cluster" {
 
   kubernetes_version = var.rke-kubernetes-version
 
-}
-
-resource "local_file" "kube-cluster-yaml" {
-  filename = "${path.root}/kube_config_cluster.yml"
-  content = rke_cluster.rancher-cluster.kube_config_yaml
-}
+} 
 
 locals {
   domain-name = module.front-end-lb.fqdn
 }
 
-resource "null_resource" "install-cert-manager" {
-  depends_on = [local_file.kube-cluster-yaml]
-  provisioner "local-exec" {
-    command = file("../install-cert-manager.sh")
-  }
-}
-
 module "rancher-setup-module"  {
   source = "./rancher-setup-module"
 
-  kubeconfig-path = local_file.kube-cluster-yaml.filename
   lets-encrypt-email = var.lets-encrypt-email
   lets-encrypt-environment = var.lets-encrypt-environment
-  rancher-hostname = local.domain-name
+  rancher_k8s = {
+    host                   = local.domain-name,
+    client_certificate     = rke_cluster.rancher-cluster.client_cert
+    client_key             = rke_cluster.rancher-cluster.client_key
+    cluster_ca_certificate = rke_cluster.rancher-cluster.ca_crt
+  }
 }
 
 
