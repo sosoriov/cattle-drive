@@ -91,7 +91,7 @@ resource "kubernetes_job" "install_cert_manager_crds" {
     }
   }
   provisioner "local-exec" {
-    command = "sleep 30s"
+    command = "sleep 60s"
   }
 }
 
