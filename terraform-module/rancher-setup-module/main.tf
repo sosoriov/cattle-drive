@@ -40,31 +40,31 @@ data "helm_repository" "jetstack" {
 }
 
 # Create rancher-installer service account
-resource "kubernetes_service_account" "rancher_installer" {
-  metadata {
-    name      = "rancher-intaller"
-    namespace = "kube-system"
-  }
+# resource "kubernetes_service_account" "rancher_installer" {
+#   metadata {
+#     name      = "rancher-intaller"
+#     namespace = "kube-system"
+#   }
 
-  automount_service_account_token = true
-}
+#   automount_service_account_token = true
+# }
 
 # Bind rancher-intall service account to cluster-admin
-resource "kubernetes_cluster_role_binding" "rancher_installer_admin" {
-  metadata {
-    name = "${kubernetes_service_account.rancher_installer.metadata[0].name}-admin"
-  }
-  role_ref {
-    api_group = "rbac.authorization.k8s.io"
-    kind      = "ClusterRole"
-    name      = "cluster-admin"
-  }
-  subject {
-    kind      = "ServiceAccount"
-    name      = kubernetes_service_account.rancher_installer.metadata[0].name
-    namespace = "kube-system"
-  }
-}
+# resource "kubernetes_cluster_role_binding" "rancher_installer_admin" {
+#   metadata {
+#     name = "${kubernetes_service_account.rancher_installer.metadata[0].name}-admin"
+#   }
+#   role_ref {
+#     api_group = "rbac.authorization.k8s.io"
+#     kind      = "ClusterRole"
+#     name      = "cluster-admin"
+#   }
+#   subject {
+#     kind      = "ServiceAccount"
+#     name      = kubernetes_service_account.rancher_installer.metadata[0].name
+#     namespace = "kube-system"
+#   }
+# }
 
 # Create and run job to install cert-manager CRDs
 resource "kubernetes_job" "install_cert_manager_crds" {
@@ -85,7 +85,7 @@ resource "kubernetes_job" "install_cert_manager_crds" {
         }
         host_network                    = true
         automount_service_account_token = true
-        service_account_name            = kubernetes_service_account.rancher_installer.metadata[0].name
+        # service_account_name            = kubernetes_service_account.rancher_installer.metadata[0].name
         restart_policy                  = "Never"
       }
     }
@@ -114,7 +114,7 @@ resource "kubernetes_job" "create_cert_manager_ns" {
         }
         host_network                    = true
         automount_service_account_token = true
-        service_account_name            = kubernetes_service_account.rancher_installer.metadata[0].name
+        # service_account_name            = kubernetes_service_account.rancher_installer.metadata[0].name
         restart_policy                  = "Never"
       }
     }
