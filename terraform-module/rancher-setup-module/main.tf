@@ -68,7 +68,7 @@ data "helm_repository" "jetstack" {
 
 # Create and run job to install cert-manager CRDs
 resource "kubernetes_job" "install_cert_manager_crds" {
-  depends_on = [kubernetes_cluster_role_binding.rancher_installer_admin]
+  # depends_on = [kubernetes_cluster_role_binding.rancher_installer_admin]
 
   metadata {
     name      = "install-certmanager-crds"
