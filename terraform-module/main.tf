@@ -164,7 +164,7 @@ module "rancher-setup-module"  {
   lets-encrypt-email = var.lets-encrypt-email
   lets-encrypt-environment = var.lets-encrypt-environment
   rancher_k8s = {
-    host                   = rke_cluster.rancher-cluster.kubeconfig_api_server_url,
+    host                   = rke_cluster.rancher-cluster.api_server_url,
     client_certificate     = rke_cluster.rancher-cluster.client_cert
     client_key             = rke_cluster.rancher-cluster.client_key
     cluster_ca_certificate = rke_cluster.rancher-cluster.ca_crt
