@@ -95,7 +95,7 @@ resource "kubernetes_job" "install_cert_manager_crds" {
     }
   }
   provisioner "local-exec" {
-    command = "sleep 60s"
+    command = "sleep 160s"
   }
 }
 
@@ -124,12 +124,12 @@ resource "kubernetes_job" "create_cert_manager_ns" {
     }
   }
   provisioner "local-exec" {
-    command = "sleep 60s"
+    command = "sleep 160s"
   }
 }
 
 resource "helm_release" "cert-manager" {
-  depends_on = [kubernetes_job.install_cert_manager_crds]
+  depends_on = [kubernetes_job.install_cert_manager_crds, kubernetes_job.create_cert_manager_ns]
 
   name  = "cert-manager"
   namespace = var.cert_manager.ns
