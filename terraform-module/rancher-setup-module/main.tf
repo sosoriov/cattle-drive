@@ -124,7 +124,7 @@ resource "kubernetes_job" "create_cert_manager_ns" {
     }
   }
   provisioner "local-exec" {
-    command = "sleep 30s"
+    command = "sleep 60s"
   }
 }
 
