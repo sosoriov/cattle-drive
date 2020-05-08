@@ -87,8 +87,8 @@ resource "kubernetes_job" "install_cert_manager_crds" {
           image   = var.kubectl_image
           command = ["kubectl", "apply", "--validate=false", "-f", var.cert_manager.crd_url]
         }
-        host_network                    = true
-        automount_service_account_token = true
+        # host_network                    = true
+        # automount_service_account_token = true
         # service_account_name            = kubernetes_service_account.rancher_installer.metadata[0].name
         restart_policy                  = "Never"
       }
@@ -116,8 +116,8 @@ resource "kubernetes_job" "create_cert_manager_ns" {
           image   = var.kubectl_image
           command = ["kubectl", "create", "namespace", var.cert_manager.ns]
         }
-        host_network                    = true
-        automount_service_account_token = true
+        # host_network                    = true
+        # automount_service_account_token = true
         # service_account_name            = kubernetes_service_account.rancher_installer.metadata[0].name
         restart_policy                  = "Never"
       }
