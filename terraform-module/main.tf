@@ -151,6 +151,7 @@ resource rke_cluster "rancher-cluster" {
   }
 
   kubernetes_version = var.rke-kubernetes-version
+  addon_job_timeout = 300
 
 } 
 
