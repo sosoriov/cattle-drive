@@ -166,20 +166,20 @@ resource "helm_release" "rancher" {
   timeout = 900
   wait = true
 
-  set {
-    name = "ingress.tls.source"
-    value = "letsEncrypt"
-  }
+  # set {
+  #   name = "ingress.tls.source"
+  #   value = "letsEncrypt"
+  # }
 
-  set {
-    name = "letsEncrypt.email"
-    value = var.lets-encrypt-email
-  }
+  # set {
+  #   name = "letsEncrypt.email"
+  #   value = var.lets-encrypt-email
+  # }
 
-  set {
-    name = "letsEncrypt.environment"
-    value = var.lets-encrypt-environment
-  }
+  # set {
+  #   name = "letsEncrypt.environment"
+  #   value = var.lets-encrypt-environment
+  # }
 
   set {
     name = "hostname"
